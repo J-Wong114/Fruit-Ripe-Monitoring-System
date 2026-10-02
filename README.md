@@ -25,13 +25,11 @@ Stereo vision systems estimate depth by mimicking the binocular vision that huma
 <img width="2203" height="1089" alt="image" src="https://github.com/user-attachments/assets/c21dbfc4-c68a-433b-af95-e94d9ac5bc53" />
 
 ## Camera Calibration and Rectification
-I developed Python scripts using OpenCV to capture calibration images and determine the intrinsic and extrinsic parameters of both cameras.
+The intrinsic parameters and lens distortion coefficients for each USB camera were obtained individually using MATLAB's Single Camera Calibrator App.
 
-A 9 × 6 chessboard calibration pattern was used to capture corresponding image pairs from the two USB cameras at different positions and orientations. The detected chessboard corners were combined with their known real-world coordinates to perform stereo calibration.
+To establish the geometric relationship between the two cameras, corresponding checkerboard image pairs were captured at different positions and orientations. OpenCV's stereoCalibrate() function was then used with the fixed intrinsic parameters to estimate the relative rotation and translation between the cameras.
 
-Using the previously obtained intrinsic camera matrices and distortion coefficients, OpenCV's stereoCalibrate() function was used to calculate the relative rotation and translation between the cameras.
-
-These parameters were subsequently used for stereo rectification, correcting image distortion and aligning corresponding points along the same horizontal scan lines to prepare the images for disparity estimation.
+These calibration parameters were subsequently used for stereo rectification and 3D reconstruction.
 
 ## Disparity Estimation and 3D Reconstruction
 To calculate depth, I implemented the Semi-Global Block Matching (SGBM) algorithm using OpenCV's StereoSGBM implementation. This algorithm estimates disparity by matching corresponding regions between the rectified left and right camera images.
