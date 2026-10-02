@@ -20,14 +20,20 @@ Following training, the model was exported to the ONNX (Open Neural Network Exch
 ## 3D Stereo Vision
 To determine the real-world positions of detected apples, I implemented a 3D stereo vision system using two USB cameras.
 
-Stereo vision systems estimate depth by mimicing the binocular vision that humans have by using two cameras situated on the same plane to reconstruct the environment that they are looking at. They are able to calculate depth within an image by comparing the horizontal pixel differences of two points of interest.
+Stereo vision systems estimate depth by mimicking the binocular vision that humans have by using two cameras situated on the same plane to reconstruct the environment that they are looking at. They are able to calculate depth within an image by comparing the horizontal pixel differences of two points of interest.
 
 <img width="2203" height="1089" alt="image" src="https://github.com/user-attachments/assets/c21dbfc4-c68a-433b-af95-e94d9ac5bc53" />
 
-## Camera Calibrationand Rectification
-A Python script using OpenCV was used to calibrate and find the internal parameters for both of the USB cameras, including focal lengths, principal points, and lens distortion coefficients. These parameters were used to correct any image distortions and prepare the camera inputs for stereo processing. 
+## Camera Calibration and Rectification
+I developed Python scripts using OpenCV to capture calibration images and determine the intrinsic and extrinsic parameters of both cameras.
 
-## Desparity Estimation and 3D Reconstruction
+A 9 × 6 chessboard calibration pattern was used to capture corresponding image pairs from the two USB cameras at different positions and orientations. The detected chessboard corners were combined with their known real-world coordinates to perform stereo calibration.
+
+Using the previously obtained intrinsic camera matrices and distortion coefficients, OpenCV's stereoCalibrate() function was used to calculate the relative rotation and translation between the cameras.
+
+These parameters were subsequently used for stereo rectification, correcting image distortion and aligning corresponding points along the same horizontal scan lines to prepare the images for disparity estimation.
+
+## Disparity Estimation and 3D Reconstruction
 To calculate depth, I implemented the Semi-Global Block Matching (SGBM) algorithm using OpenCV's StereoSGBM implementation. This algorithm estimates disparity by matching corresponding regions between the rectified left and right camera images.
 
 The resulting disparity map was converted into 3D coordinates using OpenCV's reprojectImageTo3D() function and the stereo reprojection matrix. This generated a 3D representation of the observed scene.
