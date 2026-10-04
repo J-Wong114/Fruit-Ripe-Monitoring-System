@@ -38,6 +38,9 @@ The resulting disparity map was converted into 3D coordinates using OpenCV's rep
 
 For object position estimation, the reconstructed 3D points within a detected apple's bounding box were filtered to remove invalid depth measurements and outliers. The median X, Y, and Z coordinates were then calculated to estimate the apple's real-world position.
 
+## Stereo Vision Prototype
+An experimental stereo vision pipeline developed for estimating the 3D position of detected apples. The implementation uses calibrated stereo cameras, image rectification, StereoSGBM disparity estimation, and 3D reprojection to extract median XYZ coordinates within an object's bounding box.
+
 ## Limitations and Final Implementation
 Although the stereo vision implementation successfully demonstrated 3D reconstruction, it had difficulties reliably matching corresponding points on apples due to their smooth, reflective, and similar surfaces.
 
